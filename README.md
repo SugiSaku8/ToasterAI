@@ -4,7 +4,9 @@
 ToasterAI is the next generation of Learning Support AI, developed by Carnation, the creators of Deep-Fried. 　
 
 
-Unlike traditional AI that provides direct answers, ToasterAI guides you on how to find the answers yourself. This unique approach sets it apart from any other AI developed by other companies.　　
+Unlike traditional AI that provides direct answers, ToasterAI guides you on how to find the answers yourself.
+
+This unique approach sets it apart from any other AI developed by other companies.　　
 
 We believe that this kind of AI can truly assist people in their learning journey. 　　
 
@@ -13,6 +15,8 @@ The basic structure of ToasterAI involves matching training data against your in
 This ensures that you can trust the AI's guidance with confidence, as it does not generate the answers itself.
 
 Due to the absence of unnecessary libraries, ToasterAI is both fast and intelligent. 
+
+See also the Wiki!
 
 ## Progress Tracker
 - [x] Create 50 pieces of data
