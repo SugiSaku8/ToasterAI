@@ -1,0 +1,40 @@
+{
+  "short_name": "ToasterAI",
+  "name": "ToasterAI",
+  "icons": [
+    {
+      "src": "data/img/タイトルlogo.svg",
+      "sizes": "500x500"
+    }
+  ],
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#616165",
+  "shortcuts": [
+    {
+      "name": "Deep-Fried v120",
+      "short_name": "Deep-Fried",
+      "description": "革新的なDeep-Friedを、Web上で。",
+      "url": "/",
+      "icons": [{ "src": "data/img/タイトルlogo.svg", "sizes": "500x500" }]
+    }
+  ],
+  "description": "Deep-Friedv120",
+  "screenshots": [
+    {
+      "src": "/data/image/appimg/dtx.png",
+      "type": "image/png",
+      "sizes": "1366x768",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/data/image/appimg/dtx2.png",
+      "type": "image/png",
+      "sizes": "1303x646",
+      "form_factor": "wide"
+    }
+  ]
+}
