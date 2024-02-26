@@ -6,6 +6,7 @@ data = load_dataset("your_dataset_name_here", split="train")
 
 #  モデルとトークナイザーのロード
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
+tokenizer.save_pretrained("tokenizer")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 
 #  データセットのトークナイズ
