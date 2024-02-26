@@ -73,6 +73,8 @@
         </div>
     </div>
     <script>
+        let tokens;
+    tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer/tokenizer.json")
       document.getElementById('send-btn').addEventListener('click', function() {
     const userInput = document.getElementById('user-input').value;
     if (userInput) {
@@ -93,18 +95,14 @@
 });
 
 function prepareInput(input) {
-    //  ここでは、ユーザーの入力をモデルに適合する形式に変換します。
-    //  この例では、テキストを数値に変換したり、適切な形状にリサイズしたりする必要があります。
-    //  実際のモデルの入力形式に合わせて変換を行う必要があります。
-    //  この関数はプレースホルダーです。
-    return tf.tensor2d([input], [1, input.length]);
+       tokens = fast_tokenizer.encode(input, return_tensors="pt")
+    return tokens//tf.tensor2d([input], [1, input.length]);
 }
 
 function generateResponse(predictions) {
     //  ここでは、予測結果からAIの応答を生成します。
     //  実際のモデルの出力に基づいて応答を生成する必要があります。
     //  この関数はプレースホルダーです。
-    //  例えば、予測結果から最も確率の高い応答を選択するなどの処理を行います。
     return `AIの応答:${predictions}`;
 }
 
