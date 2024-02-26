@@ -34,6 +34,4 @@ trainer = Trainer(
 
 trainer.train()
 
-#  モデルの保存とHugging Face Model Hubへのプッシュ
-trainer.save_model("ToasterAI")
-trainer.push_to_hub("ToasterAI_Hub")
+trainer.save('toaster_model.h5')
