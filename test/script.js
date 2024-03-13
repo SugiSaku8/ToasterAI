@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('https://api-inference.huggingface.co/models/meta-llama/Llama-2-7b-chat-hf', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer YOUR_HUGGING_FACE_API_TOKEN',
+                'Authorization': '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',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
