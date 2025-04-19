@@ -73,41 +73,41 @@ window.addEventListener("load", () => {
         }
       }
     });
-});
 
-// イベントリスナーの設定
-UIManager.elements.submitBtn.addEventListener("click", () => {
-  const text = UIManager.elements.userInput.value.trim();
-  if (!text) return;
+  // イベントリスナーの設定
+  UIManager.elements.submitBtn.addEventListener("click", () => {
+    const text = UIManager.elements.userInput.value.trim();
+    if (!text) return;
 
-  UIManager.showChat();
-  chatManager.handleNewMessage(text);
-  UIManager.elements.userInput.value = "";
-});
+    UIManager.showChat();
+    chatManager.handleNewMessage(text);
+    UIManager.elements.userInput.value = "";
+  });
 
-UIManager.elements.chatSubmitBtn.addEventListener("click", () => {
-  const text = UIManager.elements.chatInput.value.trim();
-  if (!text) return;
+  UIManager.elements.chatSubmitBtn.addEventListener("click", () => {
+    const text = UIManager.elements.chatInput.value.trim();
+    if (!text) return;
 
-  chatManager.handleNewMessage(text);
-  UIManager.elements.chatInput.value = "";
-});
+    chatManager.handleNewMessage(text);
+    UIManager.elements.chatInput.value = "";
+  });
 
-UIManager.elements.newChatBtn.addEventListener("click", () => {
-  UIManager.clearMessages();
-  UIManager.showSplash();
-  chatManager.clearChat();
-});
+  UIManager.elements.newChatBtn.addEventListener("click", () => {
+    UIManager.clearMessages();
+    UIManager.showSplash();
+    chatManager.clearChat();
+  });
 
-// Enterキーのイベント処理
-UIManager.elements.userInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    UIManager.elements.submitBtn.click();
-  }
-});
+  // Enterキーのイベント処理
+  UIManager.elements.userInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      UIManager.elements.submitBtn.click();
+    }
+  });
 
-UIManager.elements.chatInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    UIManager.elements.chatSubmitBtn.click();
-  }
+  UIManager.elements.chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      UIManager.elements.chatSubmitBtn.click();
+    }
+  });
 });
