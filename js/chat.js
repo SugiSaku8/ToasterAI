@@ -32,7 +32,7 @@ class ChatManager {
         breaks: true, // 改行を <br> に変換
         sanitize: true, // XSS対策
         smartLists: true, // よりスマートなリスト出力
-        smartypants: true // スマートな句読点
+        smartypants: true, // スマートな句読点
       });
 
       // リンクを新しいタブで開くように設定
@@ -73,32 +73,32 @@ class ChatManager {
   }
 
   async handleNewMessage(message) {
-    if (this.isProcessing) return; // 処理中は新しいメッセージを受け付けない
+    if (this.isProcessing) return;
     this.isProcessing = true;
 
     try {
-      // ユーザーメッセージを表示
       this.displayMessage(message, "user");
       this.conversationHistory.push({ role: "user", content: message });
 
-      // ローディングインジケータを表示
       const loadingIndicator = this.displayLoadingIndicator();
 
-      // APIレスポンスを待機
-      const response = await GeminiAPI.sendMessage(message, this.conversationHistory);
+      // 会話履歴を含めてAPIを呼び出し
+      const response = await GeminiAPI.sendMessage(
+        message,
+        this.conversationHistory.slice(-5) // 直近5件の会話履歴のみを使用
+      );
 
-      // ローディングインジケータを削除
       loadingIndicator.remove();
 
-      // ボットの応答を表示
       this.displayMessage(response, "bot");
       this.conversationHistory.push({ role: "bot", content: response });
-
-      // チャット履歴を保存
       this.saveChat();
     } catch (error) {
       console.error("Chat error:", error);
-      this.displayMessage("申し訳ありません。エラーが発生しました。もう一度お試しください。", "bot");
+      this.displayMessage(
+        "申し訳ありません。エラーが発生しました。もう一度お試しください。",
+        "bot"
+      );
     } finally {
       this.isProcessing = false;
     }
@@ -113,12 +113,14 @@ class ChatManager {
   exportChat() {
     const exportData = {
       timestamp: new Date().toISOString(),
-      history: this.conversationHistory
+      history: this.conversationHistory,
     };
-    
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
-    
+
     const a = document.createElement("a");
     a.href = url;
     a.download = `chat-history-${new Date().toISOString().slice(0, 10)}.json`;
@@ -132,7 +134,7 @@ class ChatManager {
     try {
       const text = await file.text();
       const importData = JSON.parse(text);
-      
+
       if (importData.history && Array.isArray(importData.history)) {
         this.clearChat();
         this.conversationHistory = importData.history;
@@ -162,7 +164,7 @@ class ChatManager {
     errorDiv.textContent = message;
     document.getElementById("messages-container").appendChild(errorDiv);
     errorDiv.scrollIntoView({ behavior: "smooth" });
-    
+
     // エラーメッセージを3秒後に消す
     setTimeout(() => {
       errorDiv.remove();
@@ -170,6 +172,4 @@ class ChatManager {
   }
 }
 
-// チャットマネージャーのインスタンスをエクスポート
-const chatManager = new ChatManager();
-export default chatManager;
+window.chatManager = new ChatManager();
