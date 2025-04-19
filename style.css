@@ -51,8 +51,6 @@ body {
     height: 100px;
     margin: 20px auto;
     display: block;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
@@ -63,7 +61,7 @@ body {
 .title {
     font-size: 2.5em;
     font-weight: bold;
-    color: #006837;
+    color: black;
     margin-bottom: 15px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
