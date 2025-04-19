@@ -1,210 +1,89 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<link id="icon" rel="icon" href="/data/img/titlelogo.svg">
-	<meta name="theme-color" content="#2cb4ad" />
-	<meta name="viewport" content="width=device-width,Initial-scale=1">
-        <meta http-equiv="Pragma" content="no-cache">
-        <meta http-equiv="Cache-Control" content="no-cache">
-	<title>ToasterAI</title>
-    <style>
-	    .chat-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    margin: auto;
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-}
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToasterMachine</title>
+    <link id="icon" rel="icon" href="/data/img/icon.png" />
+    <meta name="theme-color" content="#2cb4ad" />
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <!-- Splash UI -->
+    <div class="splash-container" id="splash">
+      <div class="card">
+        <div class="title">ToasterMachine</div>
+        <img src="/data/img/icon.png" alt="ロゴ" class="logo-img" />
+        <div class="version">v0.0.1-Demo</div>
+        <div class="input-group">
+          <input id="user-input" type="text" placeholder="ここに質問を入力" />
+          <button id="submit-btn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 12L20 12"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M14 6L20 12L14 18"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
 
-.message {
-    margin: 5px;
-    padding: 10px;
-    border-radius: 18px;
-    position: relative;
-    max-width: 2500%;
-}
+    <!-- Chat Section -->
+    <div id="chat-container" class="chat-container">
+      <button id="new-chat-btn" class="new-chat-btn">新規チャット</button>
+      <div id="messages-container" class="messages-container"></div>
+      <div class="chat-input-container">
+        <div class="input-group">
+          <input id="chat-input" type="text" placeholder="メッセージを入力" />
+          <button id="chat-submit-btn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 12L20 12"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M14 6L20 12L14 18"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
 
-.user, .bot {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-}
-
-.user {
-    align-self: flex-end;
-    background-color: #0b93f6;
-    color: white;
-}
-
-.user::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -8px;
-    width: 0;
-    height: 0;
-    border-top: 10px solid #0b93f6;
-    border-left: 10px solid transparent;
-}
-
-.bot {
-    align-self: flex-start;
-    background-color: #e5e5ea;
-}
-
-.bot::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -8px;
-    width: 0;
-    height: 0;
-    border-top: 10px solid #e5e5ea;
-    border-right: 10px solid transparent;
-}
-
-    </style>
-	<script type="text/javascript" async src="/js/mlx.js/config=TeX-MML-AM_CHTML"></script>
-
-</head>
-<body>
-	<style>
-		.chat-container {
-			display: flex;
-			flex-direction: column;
-			max-width: 100%;
-			margin: auto;
-			font-family: 'Helvetica Neue', Helvetica, sans-serif;
-			font-size: 14px;
-			line-height: 20px;
-		}
-
-		.message {
-			margin: 5px;
-			padding: 10px;
-			border-radius: 18px;
-			position: relative;
-			max-width: 2500%;
-		}
-
-		.user,
-		.bot {
-			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-		}
-
-		.user {
-			align-self: flex-end;
-			background-color: #0b93f6;
-			color: white;
-		}
-
-		.user::after {
-			content: "";
-			position: absolute;
-			top: 50%;
-			right: -8px;
-			width: 0;
-			height: 0;
-			border-top: 10px solid #0b93f6;
-			border-left: 10px solid transparent;
-		}
-
-		.bot {
-			align-self: flex-start;
-			background-color: #e5e5ea;
-		}
-
-		.bot::after {
-			content: "";
-			position: absolute;
-			top: 50%;
-			left: -8px;
-			width: 0;
-			height: 0;
-			border-top: 10px solid #e5e5ea;
-			border-right: 10px solid transparent;
-		}
-
-		.menu {
-			position: fixed;
-			left: -250px;
-			width: 250px;
-			height: 100%;
-			background-color: #a9a9a9;
-			color: #fff;
-			transition: 0.3s;
-		}
-
-		.menu.active {
-			left: 0;
-		}
-
-		.menu ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
-
-		.menu ul li {
-			padding: 10px;
-		}
-
-		.menu-btn {
-			position: absolute;
-			left: 10px;
-			top: 10px;
-			cursor: pointer;
-		}
-
-		#user-input {
-			width: 75%;
-			height: 95%;
-			padding: 10px 20px;
-			margin: 10px 0;
-			box-sizing: border-box;
-			border-radius: 20px;
-			border: 1px solid #ccc;
-		}
-
-		button {
-			max-width: 100%;
-			padding: 10px 20px;
-			margin: 10px 0;
-			box-sizing: border-box;
-			border-radius: 20px;
-			border: none;
-			background-color: #007AFF;
-			color: white;
-			cursor: pointer;
-		}
-	</style>
-	<div class="menu" id="menu">
-		<ul>
-			<br>
-			<li><button>Default</button></li>
-			<li><button>👑Pro</button></li>
-			<li><button>👑Max</button></li>
-			<li><button>👑ProMax</button></li>
-		</ul>
-	</div>
-	<div class="menu-btn" id="menu-btn">
-		&#9776;
-	</div>
-	<br>
-<div>
-    <div id="chat-container" class="chat-container" style="max-height:80%;height:20%;width:40%;"></div>
-    <input id="user-input" type="text"placeholder="ToasterAI">
-	<button id="clocki">送信</button>
-	<script id="menuopen">
-		var menu = document.getElementById('menu');
-		var menuBtn = document.getElementById('menu-btn');
-
-		menuBtn.addEventListener('click', function() {
-		    menu.classList.toggle('active');
-		});
-	</script>
-	<script type="module" src="./js/wi.js"></script>
-	<script type="module" src="./js/l_g.js"></script>
-	<script type="module" src="./js/ai.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>
