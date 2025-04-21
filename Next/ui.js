@@ -1,5 +1,5 @@
 export class UIController {
-    constructor() {
+    constructor(logger, progressManager) {
         this.chatMessages = document.getElementById('chat-messages');
         this.userInput = document.getElementById('user-input');
         this.sendButton = document.getElementById('send-button');
@@ -8,7 +8,12 @@ export class UIController {
         this.questionSummary = document.getElementById('question-summary');
         this.generatedDocument = document.getElementById('generated-document');
         
+        this.logger = logger;
+        this.progressManager = progressManager;
+        
         this.setupEventListeners();
+        this.setupProgressUI();
+        this.setupLogUI();
     }
 
     setupEventListeners() {
@@ -21,6 +26,34 @@ export class UIController {
         });
     }
 
+    setupProgressUI() {
+        const progressSteps = document.getElementById('progress-steps');
+        this.progressManager.addListener(steps => {
+            progressSteps.innerHTML = '';
+            steps.forEach(step => {
+                const stepElement = document.createElement('div');
+                stepElement.className = 'progress-step';
+                stepElement.innerHTML = `
+                    <div class="step-status status-${step.status}"></div>
+                    <div class="step-name">${step.name}</div>
+                    ${step.progress ? `<div class="step-progress">${step.progress}%</div>` : ''}
+                `;
+                progressSteps.appendChild(stepElement);
+            });
+        });
+    }
+
+    setupLogUI() {
+        const logEntries = document.getElementById('log-entries');
+        this.logger.addListener(logEntry => {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${logEntry.level}`;
+            entry.textContent = `[${logEntry.timestamp.toLocaleTimeString()}] ${logEntry.message}`;
+            logEntries.appendChild(entry);
+            logEntries.scrollTop = logEntries.scrollHeight;
+        });
+    }
+
     setOnSendCallback(callback) {
         this.onSendCallback = callback;
     }
@@ -28,6 +61,7 @@ export class UIController {
     async handleSend() {
         const message = this.userInput.value.trim();
         if (message) {
+            this.logger.info('ユーザーメッセージを送信中', { message });
             this.addUserMessage(message);
             this.userInput.value = '';
             this.setStatus('処理中...', 'processing');

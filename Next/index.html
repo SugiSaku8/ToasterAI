@@ -1,55 +1,71 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI コーチング システム</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
     <div class="container">
-      <header>
-        <h1>AI コーチング システム</h1>
-        <div class="status-indicator">
-          <span id="status-text">準備完了</span>
-          <div id="status-light"></div>
-        </div>
-      </header>
-
-      <main>
-        <div class="chat-container">
-          <div id="chat-messages" class="chat-messages">
-            <!-- メッセージが動的に追加されます -->
-          </div>
-
-          <div class="input-area">
-            <textarea
-              id="user-input"
-              placeholder="質問や返答を入力してください..."
-              rows="3"
-            ></textarea>
-            <button id="send-button" class="primary-button">送信</button>
-          </div>
-        </div>
-
-        <div class="session-info">
-          <div class="info-panel">
-            <h3>セッション情報</h3>
-            <div id="summary-panel" class="info-content">
-              <h4>質問の要約</h4>
-              <p id="question-summary">まだ質問が入力されていません</p>
+        <header>
+            <h1>AI コーチング システム</h1>
+            <div class="status-indicator">
+                <span id="status-text">準備完了</span>
+                <div id="status-light"></div>
             </div>
-            <div id="document-panel" class="info-content">
-              <h4>生成されたドキュメント</h4>
-              <p id="generated-document">
-                ドキュメントはまだ生成されていません
-              </p>
+        </header>
+
+        <main>
+            <div class="chat-container">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- メッセージが動的に追加されます -->
+                </div>
+
+                <div class="input-area">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="質問や返答を入力してください..."
+                        rows="3"
+                    ></textarea>
+                    <button id="send-button" class="primary-button">
+                        送信
+                    </button>
+                </div>
             </div>
-          </div>
+
+            <div class="session-info">
+                <div class="info-panel">
+                    <h3>セッション情報</h3>
+                    <div id="summary-panel" class="info-content">
+                        <h4>質問の要約</h4>
+                        <p id="question-summary">まだ質問が入力されていません</p>
+                    </div>
+                    <div id="document-panel" class="info-content">
+                        <h4>生成されたドキュメント</h4>
+                        <p id="generated-document">ドキュメントはまだ生成されていません</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="system-status">
+            <div class="progress-container">
+                <h3>処理進捗</h3>
+                <div id="progress-steps" class="progress-steps">
+                    <!-- 進捗ステップが動的に追加されます -->
+                </div>
+            </div>
+            
+            <div class="log-container">
+                <h3>システムログ</h3>
+                <div id="log-entries" class="log-entries">
+                    <!-- ログエントリが動的に追加されます -->
+                </div>
+            </div>
         </div>
-      </main>
     </div>
 
-    <script type="module" src="main.js"></script>
-  </body>
+    <script type="module" src="js/main.js"></script>
+</body>
 </html>

@@ -123,6 +123,12 @@ textarea {
     transform: translateY(-2px);
 }
 
+.primary-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .session-info {
     background: white;
     border-radius: 12px;
@@ -147,7 +153,100 @@ textarea {
     color: var(--secondary-color);
 }
 
-/* アニメーション */
+.system-status {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    z-index: 1000;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.progress-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    background: var(--background-color);
+}
+
+.step-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.status-pending {
+    background-color: #gray;
+}
+
+.status-processing {
+    background-color: var(--primary-color);
+    animation: pulse 1s infinite;
+}
+
+.status-completed {
+    background-color: var(--success-color);
+}
+
+.status-error {
+    background-color: var(--error-color);
+}
+
+.log-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.log-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.log-entry {
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+}
+
+.log-INFO {
+    background-color: #E3F2FD;
+}
+
+.log-WARN {
+    background-color: #FFF3E0;
+}
+
+.log-ERROR {
+    background-color: #FFEBEE;
+}
+
+.log-DEBUG {
+    background-color: #F5F5F5;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
