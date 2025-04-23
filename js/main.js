@@ -25,7 +25,7 @@ window.addEventListener("load", () => {
   document
     .getElementById("chat-input")
     .addEventListener("keydown", async (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
+      if (e.key === "Enter" && e.ctrlKey && !e.shiftKey) {
         e.preventDefault();
         const input = e.target;
         const message = input.value.trim();
