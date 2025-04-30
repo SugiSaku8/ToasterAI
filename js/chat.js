@@ -1,9 +1,24 @@
+/**
+ * チャットの管理を行うクラス
+ * - 会話履歴の保存・読み込み
+ * - メッセージの表示
+ * - GeminiAPIとの連携
+ * - チャットのエクスポート/インポート
+ */
 class ChatManager {
+  /**
+   * ChatManagerのコンストラクタ
+   */
   constructor() {
+    /** @type {Array<{role: string, content: string}>} 会話履歴 */
     this.conversationHistory = [];
+    /** @type {boolean} メッセージ処理中かどうか */
     this.isProcessing = false;
   }
 
+  /**
+   * 会話履歴をlocalStorageに保存する
+   */
   saveChat() {
     localStorage.setItem(
       "chatHistory",
@@ -11,6 +26,9 @@ class ChatManager {
     );
   }
 
+  /**
+   * localStorageから会話履歴を読み込み、画面に表示する
+   */
   loadChat() {
     const saved = localStorage.getItem("chatHistory");
     if (saved) {
@@ -21,6 +39,11 @@ class ChatManager {
     }
   }
 
+  /**
+   * メッセージを画面に表示する
+   * @param {string} message メッセージ内容
+   * @param {string} role "user" または "bot"
+   */
   displayMessage(message, role) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${role}`;
@@ -63,6 +86,10 @@ class ChatManager {
     messageDiv.scrollIntoView({ behavior: "smooth" });
   }
 
+  /**
+   * ローディングインジケーターを表示する
+   * @returns {HTMLDivElement} 表示したローディング要素
+   */
   displayLoadingIndicator() {
     const loadingDiv = document.createElement("div");
     loadingDiv.className = "message bot typing-indicator";
@@ -72,6 +99,10 @@ class ChatManager {
     return loadingDiv;
   }
 
+  /**
+   * 新しいメッセージを処理し、APIに送信して応答を表示する
+   * @param {string} message ユーザーからのメッセージ
+   */
   async handleNewMessage(message) {
     if (this.isProcessing) return;
     this.isProcessing = true;
@@ -104,6 +135,9 @@ class ChatManager {
     }
   }
 
+  /**
+   * チャット履歴をクリアし、画面もリセットする
+   */
   clearChat() {
     this.conversationHistory = [];
     GeminiAPI.remove();
@@ -111,6 +145,9 @@ class ChatManager {
     this.saveChat();
   }
 
+  /**
+   * チャット履歴をJSONファイルとしてエクスポートする
+   */
   exportChat() {
     const exportData = {
       timestamp: new Date().toISOString(),
@@ -131,6 +168,11 @@ class ChatManager {
     URL.revokeObjectURL(url);
   }
 
+  /**
+   * チャット履歴をJSONファイルからインポートする
+   * @param {File} file インポートするファイル
+   * @returns {Promise<boolean>} インポート成功時はtrue、失敗時はfalse
+   */
   async importChat(file) {
     try {
       const text = await file.text();
@@ -151,14 +193,26 @@ class ChatManager {
     }
   }
 
+  /**
+   * 現在メッセージ処理中かどうかを返す
+   * @returns {boolean}
+   */
   isTyping() {
     return this.isProcessing;
   }
 
+  /**
+   * 会話履歴を取得する
+   * @returns {Array<{role: string, content: string}>}
+   */
   getConversationHistory() {
     return this.conversationHistory;
   }
 
+  /**
+   * エラーメッセージを画面に表示し、3秒後に自動で消す
+   * @param {string} message エラーメッセージ
+   */
   displayError(message) {
     const errorDiv = document.createElement("div");
     errorDiv.className = "message bot error";
@@ -173,4 +227,5 @@ class ChatManager {
   }
 }
 
+// ChatManagerのインスタンスをグローバルに公開
 window.chatManager = new ChatManager();

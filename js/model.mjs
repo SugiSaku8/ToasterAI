@@ -1,22 +1,40 @@
+/**
+ * Gemini APIを利用してコーチング資料の生成や対話処理を行うクラス
+ */
 class GeminiProcessor {
+  /**
+   * @param {string} apiKey Gemini APIのAPIキー
+   */
   constructor(apiKey) {
     this.apiKey = apiKey;
   }
 
-  // 質問を解析して要約を生成
+  /**
+   * 質問を解析して要約を生成する
+   * @param {string} question ユーザーからの質問
+   * @returns {Promise<string>} 要約結果
+   */
   async analyzeQuestion(question) {
     // Gemini APIを使用して質問を解析
     const prompt = `以下の質問の本質的な要求を3行程度で要約してください：\n${question}`;
     return await this.callGemini(prompt);
   }
 
-  // データドキュメントを生成
+  /**
+   * データドキュメントを生成する
+   * @param {string} summary 要約文
+   * @returns {Promise<string>} データドキュメント
+   */
   async generateDocument(summary) {
     const prompt = `以下の要約に対する具体的な回答を、データドキュメントとして作成してください：\n${summary}`;
     return await this.callGemini(prompt);
   }
 
-  // コーチング覚書を作成
+  /**
+   * コーチング覚書を作成する
+   * @param {string} document データドキュメント
+   * @returns {Promise<string>} コーチング覚書
+   */
   async createCoachingNotes(document) {
     const prompt = `  コーチングとは、本人特有の感情や思考のはたらきを行動の力に変えることで目標達成や自己実現を促す、コミュニケーション技術です。
         コーチング（Coaching）と聞くと、スポーツの分野などにおいて監督が選手を教え導く、すなわちティーチング（Teaching）をイメージされるかもしれません。しかし、コーチングとティーチングは異なる方法です。
@@ -38,7 +56,12 @@ class GeminiProcessor {
     return await this.callGemini(prompt);
   }
 
-  // インタラクティブな対話を処理
+  /**
+   * インタラクティブな対話を処理する
+   * @param {string} notes コーチング覚書
+   * @param {string} userResponse ユーザーの返答
+   * @returns {Promise<string>} 次のステップの発言
+   */
   async processInteraction(notes, userResponse) {
     const prompt = `以下のコーチング覚書と、ユーザーの返答を基に、次のステップの発言を生成してください：
         ユーザーが基本知識を知らなかったら、柔軟に覚書を変えて、教えてあげてください。
@@ -51,7 +74,11 @@ class GeminiProcessor {
     return await this.callGemini(prompt);
   }
 
-  // Gemini APIを呼び出す共通メソッド
+  /**
+   * Gemini APIを呼び出す共通メソッド
+   * @param {string} message APIに送信するメッセージ
+   * @returns {Promise<string>} Gemini APIの応答
+   */
   async callGemini(message) {
     // システムプロンプトの設定
     const systemPrompt = `あなたはコーチングを通してユーザーの質問に答えるToasterMachineというbotです。
@@ -143,17 +170,31 @@ class GeminiProcessor {
   }
 }
 
-// セッション管理用のクラス
+/**
+ * コーチングセッションを管理するクラス
+ */
 class CoachingSession {
+  /**
+   * @param {GeminiProcessor} geminiProcessor GeminiProcessorのインスタンス
+   */
   constructor(geminiProcessor) {
+    /** @type {GeminiProcessor} */
     this.geminiProcessor = geminiProcessor;
+    /** @type {?string} */
     this.summary = null;
+    /** @type {?string} */
     this.document = null;
+    /** @type {?string} */
     this.notes = null;
+    /** @type {string} */
     this.currentStep = "initial";
   }
 
-  // 新しいセッションを開始
+  /**
+   * 新しいセッションを開始する
+   * @param {string} question ユーザーからの質問
+   * @returns {Promise<string>} セッション開始時の応答
+   */
   async startSession(question) {
     this.summary = await this.geminiProcessor.analyzeQuestion(question);
     this.document = await this.geminiProcessor.generateDocument(this.summary);
@@ -161,7 +202,11 @@ class CoachingSession {
     return await this.geminiProcessor.processInteraction(this.notes, "start");
   }
 
-  // ユーザーの返答を処理
+  /**
+   * ユーザーの返答を処理する
+   * @param {string} userResponse ユーザーの返答
+   * @returns {Promise<string>} Gemini APIの応答
+   */
   async handleResponse(userResponse) {
     return await this.geminiProcessor.processInteraction(
       this.notes,
